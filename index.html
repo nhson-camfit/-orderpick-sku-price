@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오더앤픽 매점 상품 판매 안내</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --op:#7838d6; --op-deep:#5b25aa; --op-soft:#f3ecfd; --op-line:#e6dbf7;
+    --camfit:#5ecb78;
+    --ink:#1f2430; --sub:#6b7280; --line:#e9e6ef; --bg:#f6f4fa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",
+      "Malgun Gothic",system-ui,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.65;
+    -webkit-font-smoothing:antialiased; padding-bottom:40px;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:680px; margin:0 auto; padding:0 16px}
+
+  /* 상단 로고 바 */
+  .topbar{background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10}
+  .topbar .wrap{display:flex; align-items:center; gap:10px; height:62px}
+  .topbar .sym{width:38px; height:38px; border-radius:11px; display:block; flex:none}
+  .topbar .op{height:19px; display:block}
+  .topbar .lock{display:flex; flex-direction:column; gap:3px; min-width:0}
+  .topbar .sub{font-size:11.5px; color:var(--sub); font-weight:600; letter-spacing:-.2px}
+  .topbar .badge{
+    margin-left:auto; font-size:11.5px; font-weight:700; color:var(--op);
+    background:var(--op-soft); padding:6px 11px; border-radius:8px; white-space:nowrap;
+  }
+
+  header{background:var(--op); color:#fff; padding:22px 0 42px; overflow:hidden}
+  .hero-wrap{position:relative; margin:0 0 30px}
+  .hero-wrap .hero{
+    width:100%; display:block; border-radius:16px; background:var(--op);
+  }
+  .hero-wrap .deco{position:absolute; pointer-events:none; user-select:none}
+  .hero-wrap .deco-a{width:23%; top:-9%; left:-5%}
+  .hero-wrap .deco-b{width:27%; right:-6%; bottom:-11%}
+  header h1{font-size:29px; font-weight:800; letter-spacing:-1px; line-height:1.35}
+  header p{font-size:15.5px; opacity:.9; margin-top:14px; line-height:1.7}
+
+  main{margin-top:18px}
+  section{
+    background:#fff; border:1px solid var(--line); border-radius:16px;
+    padding:28px 20px; margin-bottom:16px;
+  }
+  section.alt{background:var(--op-soft); border-color:var(--op-line)}
+  h2{
+    font-size:20px; font-weight:800; color:var(--ink);
+    letter-spacing:-.6px; margin-bottom:22px;
+  }
+
+  /* 3단계 흐름 — 모바일 세로 스택 */
+  .flow{display:flex; flex-direction:column; align-items:center; gap:0}
+  .step{text-align:center; width:100%}
+  .step .ic{
+    width:96px; height:96px; margin:0 auto 12px; border-radius:26px;
+    background:#fff; border:1px solid var(--op-line); color:var(--op);
+    display:flex; align-items:center; justify-content:center;
+  }
+  section:not(.alt) .step .ic{background:var(--op-soft); border-color:transparent}
+  .step .ic svg{width:42px; height:42px; stroke:currentColor; stroke-width:1.6;
+    fill:none; stroke-linecap:round; stroke-linejoin:round}
+  .step b{display:block; font-size:18px; font-weight:800; line-height:1.4;
+    letter-spacing:-.5px; color:var(--op-deep)}
+  .step span{display:block; font-size:14.5px; color:var(--sub); margin-top:5px; line-height:1.6}
+  .arw{color:#bcaade; padding:14px 0}
+  .arw svg{width:20px; height:20px; stroke:currentColor; stroke-width:2;
+    fill:none; stroke-linecap:round; stroke-linejoin:round; display:block}
+
+  .flow-note{
+    margin-top:24px; padding:16px 18px; background:#fff;
+    border:1px solid var(--op-line); border-radius:13px;
+    font-size:15px; line-height:1.75; text-align:center;
+  }
+  section:not(.alt) .flow-note{background:var(--op-soft); border-color:transparent}
+  .flow-note b{color:var(--op-deep); font-weight:800}
+
+  /* 가로 배치는 넓은 화면에서만 */
+  @media (min-width:620px){
+    .flow{flex-direction:row; align-items:flex-start; gap:6px}
+    .step{flex:1 1 0; min-width:0}
+    .step .ic{width:84px; height:84px; border-radius:22px}
+    .step .ic svg{width:36px; height:36px}
+    .step b{font-size:16px}
+    .step span{font-size:13.5px}
+    .arw{padding:30px 0 0}
+    .arw svg{transform:rotate(-90deg)}
+  }
+
+  /* 혜택 */
+  .ben{display:flex; gap:12px; padding:20px 0; border-top:1px solid var(--line)}
+  .ben:first-of-type{border-top:none; padding-top:0}
+  .ben:last-child{padding-bottom:0}
+  .ben .chk{flex:none; width:24px; height:24px; margin-top:2px; color:var(--op)}
+  .ben .chk svg{width:24px; height:24px; stroke:currentColor; stroke-width:2.2;
+    fill:none; stroke-linecap:round; stroke-linejoin:round}
+  .ben b{display:block; font-size:17.5px; font-weight:800; letter-spacing:-.5px;
+    margin-bottom:6px; color:var(--op-deep)}
+  .ben p{font-size:15px; color:var(--sub); line-height:1.75}
+  .ben p em{font-style:normal; color:var(--ink); font-weight:600}
+
+  /* 가격표 */
+  .disc{
+    display:flex; gap:9px; align-items:flex-start;
+    background:#fffaf0; border:1px solid #f3ddb0; border-radius:11px;
+    padding:12px 14px; margin-bottom:16px; font-size:13.5px; color:#8a5a12; line-height:1.65;
+  }
+  .disc b{font-weight:800; color:#7a4d0c}
+  .disc .i{flex:none; font-size:14px; line-height:1.5}
+
+  .legend{display:grid; gap:7px; margin-bottom:15px}
+  .legend div{font-size:13px; color:var(--sub); line-height:1.6}
+  .legend b{font-weight:800; color:var(--ink)}
+  .legend .s b{color:var(--op-deep)}
+
+  .phead{
+    display:flex; gap:10px; align-items:center;
+    padding:0 2px 8px; border-bottom:1.5px solid var(--op-line);
+    font-size:11.5px; font-weight:700; color:var(--sub);
+  }
+  .phead .sp{flex:none; width:44px}
+  .phead .nm{flex:1 1 auto; min-width:0}
+  .phead .sell{flex:none; width:58px; text-align:right}
+  .phead .settle{flex:none; width:72px; text-align:right; color:var(--op-deep)}
+
+  .grp{
+    font-size:12.5px; font-weight:800; color:var(--op-deep);
+    padding:14px 2px 6px; letter-spacing:-.2px;
+  }
+  .prow{display:flex; gap:10px; align-items:center; padding:9px 2px; border-top:1px solid #f1eef7}
+  .grp + .prow{border-top:none}
+  .prow .th{
+    flex:none; width:44px; height:44px; object-fit:contain;
+    background:#fafafa; border:1px solid var(--line); border-radius:9px;
+  }
+  .prow .nm{flex:1 1 auto; min-width:0}
+  .prow .nm b{display:block; font-size:14.5px; font-weight:700; line-height:1.4; letter-spacing:-.3px}
+  .prow .nm span{display:block; font-size:11.5px; color:var(--sub); margin-top:1px; line-height:1.4}
+  .prow .sell{flex:none; width:58px; text-align:right; font-size:13.5px; color:var(--sub); white-space:nowrap}
+  .prow .settle{flex:none; width:72px; text-align:right; font-size:15.5px; font-weight:800;
+    color:var(--op-deep); white-space:nowrap}
+
+  .tnote{margin-top:16px; font-size:13.5px; color:var(--sub); line-height:1.75}
+  .tnote b{color:var(--ink); font-weight:700}
+
+  /* FAQ */
+  .faq{border-top:1px solid var(--line)}
+  .faq:first-of-type{border-top:none}
+  .faq-q{
+    width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    font-family:inherit; font-size:15px; font-weight:700; color:var(--ink);
+    padding:15px 30px 15px 0; position:relative; line-height:1.5; letter-spacing:-.3px;
+  }
+  .faq-q::after{
+    content:""; position:absolute; right:8px; top:22px; width:9px; height:9px;
+    border-right:2px solid var(--op); border-bottom:2px solid var(--op);
+    transform:rotate(45deg); transition:transform .2s;
+  }
+  .faq.open .faq-q{color:var(--op-deep)}
+  .faq.open .faq-q::after{transform:rotate(-135deg); top:26px}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .28s ease}
+  .faq-a .inner{padding:0 0 16px; font-size:14px; color:var(--sub); line-height:1.85}
+  .faq-a .inner em{font-style:normal; color:var(--ink); font-weight:600}
+
+  footer{text-align:center; padding:24px 16px 0}
+  footer img{height:13px; opacity:.4; display:block; margin:0 auto 8px}
+  footer p{font-size:11.5px; color:#9ca3af}
+
+  @media (max-width:380px){
+    .prow .th{width:38px; height:38px}
+    .prow .sell{width:52px} .prow .settle{width:66px; font-size:15px}
+    .phead .sp{width:38px} .phead .sell{width:52px} .phead .settle{width:66px}
+    .step .ic{width:46px; height:46px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <img class="sym" src="camfit-symbol.png" alt="캠핏">
+    <span class="lock">
+      <img class="op" src="op-logo.png" alt="오더앤픽">
+      <span class="sub">캠지기 안내</span>
+    </span>
+    <span class="badge">매점 연동</span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <div class="hero-wrap">
+      <img class="hero" src="op-hero.jpg" alt="오더앤픽 — 집에서 빠르게 쇼핑하고, 캠핑장에서 바로 픽업">
+      <img class="deco deco-a" src="op-3d.png" alt="" aria-hidden="true">
+      <img class="deco deco-b" src="op-3d-boxes.png" alt="" aria-hidden="true">
+    </div>
+    <h1>매점에 있는 상품,<br>온라인으로도 팔아보세요</h1>
+    <p>새로 사입하실 것도, 받으실 택배도 없습니다.<br>지금 매점 재고 그대로 시작합니다.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 한눈에 보기 -->
+  <section class="alt">
+    <h2>한눈에 보기</h2>
+    <div class="flow">
+      <div class="step">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><line x1="10.2" y1="18.3" x2="13.8" y2="18.3"/></svg></div>
+        <b>캠퍼가 미리 주문</b>
+        <span>캠핏 앱에서 입실 전 결제</span>
+      </div>
+      <div class="arw"><svg viewBox="0 0 24 24"><polyline points="5,9 12,17 19,9"/></svg></div>
+      <div class="step">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4.2 7.5h15.6l-1.1 13H5.3z"/><path d="M8.6 7.5V5.6a3.4 3.4 0 0 1 6.8 0v1.9"/></svg></div>
+        <b>매점에서 전달</b>
+        <span>찾아온 캠퍼에게 상품 인계</span>
+      </div>
+      <div class="arw"><svg viewBox="0 0 24 24"><polyline points="5,9 12,17 19,9"/></svg></div>
+      <div class="step">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/></svg></div>
+        <b>판매대금 정산</b>
+        <span>캠핏이 정산해 드림</span>
+      </div>
+    </div>
+    <p class="flow-note">
+      결제도 정산도 캠핏이 합니다.<br>사장님은 <b>상품을 건네주시기만</b> 하면 됩니다.
+    </p>
+  </section>
+
+  <!-- 혜택 -->
+  <section>
+    <h2>이런 점이 좋습니다</h2>
+
+    <div class="ben">
+      <span class="chk"><svg viewBox="0 0 24 24"><polyline points="4,12.5 9.5,18 20,6.5"/></svg></span>
+      <div>
+        <b>초기 비용이 들지 않습니다</b>
+        <p>새로 사입하실 상품이 없습니다. <em>지금 매점에 있는 재고 그대로</em> 온라인에 올립니다.
+           재고를 떠안으실 부담도, 유통기한 위험을 새로 지실 일도 없습니다.</p>
+      </div>
+    </div>
+
+    <div class="ben">
+      <span class="chk"><svg viewBox="0 0 24 24"><polyline points="4,12.5 9.5,18 20,6.5"/></svg></span>
+      <div>
+        <b>새로 생기는 매출입니다</b>
+        <p>캠퍼 대부분은 <em>오는 길에 마트에서 장을 봐 옵니다.</em>
+           그 수요를 사장님 매점 재고로 돌리는 구조라, 기존 매점 매출을 나눠 갖는 것이 아닙니다.
+           안 돌던 재고가 돌면 유통기한 손실도 함께 줄어듭니다.</p>
+      </div>
+    </div>
+
+    <div class="ben">
+      <span class="chk"><svg viewBox="0 0 24 24"><polyline points="4,12.5 9.5,18 20,6.5"/></svg></span>
+      <div>
+        <b>키오스크를 무상으로 드립니다</b>
+        <p><em>기기값과 설치비 전액 무상</em>입니다. 매점 결제와 재고 관리를 함께 쓰실 수 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="ben">
+      <span class="chk"><svg viewBox="0 0 24 24"><polyline points="4,12.5 9.5,18 20,6.5"/></svg></span>
+      <div>
+        <b>하실 일은 두 가지입니다</b>
+        <p><em>초기 상품 등록</em>, 그리고 오더앤픽으로 주문한 <em>캠퍼에게 상품을 인계</em>해 주시는 것입니다.
+           판매가 책정과 결제·정산은 캠핏이 합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가격표 -->
+  <section>
+    <h2>판매가와 정산금액</h2>
+
+    <div class="disc">
+      <span class="i">!</span>
+      <div>아래 금액은 <b>아직 확정된 가격이 아닙니다.</b> 대략 이 정도 수준으로 판매된다는 정도로 참고해 주세요.</div>
+    </div>
+
+    <div class="legend">
+      <div><b>판매가</b> — 캠퍼가 캠핏 앱에서 결제하는 금액입니다.</div>
+      <div class="s"><b>정산금액</b> — 사장님이 받으시는 금액입니다.</div>
+    </div>
+
+    <div class="phead">
+      <div class="sp"></div>
+      <div class="nm">품목</div>
+      <div class="sell">판매가</div>
+      <div class="settle">정산금액</div>
+    </div>
+
+    <div class="grp">라면 · 즉석식품</div>
+    <div class="prow"><img class="th" src="img/p01.jpg" alt="" loading="lazy"><div class="nm"><b>봉지라면</b><span>안성탕면 · 진라면 등</span></div><div class="sell">1,000</div><div class="settle">920</div></div>
+    <div class="prow"><img class="th" src="img/p02.jpg" alt="" loading="lazy"><div class="nm"><b>봉지라면</b><span>신라면 · 짜파게티 등</span></div><div class="sell">1,200</div><div class="settle">1,104</div></div>
+    <div class="prow"><img class="th" src="img/p03.png" alt="" loading="lazy"><div class="nm"><b>컵라면 (대)</b><span>신라면컵 · 왕뚜껑 등</span></div><div class="sell">1,600</div><div class="settle">1,472</div></div>
+    <div class="prow"><img class="th" src="img/p04.jpg" alt="" loading="lazy"><div class="nm"><b>컵라면 (소·사발)</b><span>육개장 · 김치사발면</span></div><div class="sell">1,300</div><div class="settle">1,196</div></div>
+    <div class="prow"><img class="th" src="img/p05.png" alt="" loading="lazy"><div class="nm"><b>즉석밥</b><span>200g</span></div><div class="sell">1,500</div><div class="settle">1,380</div></div>
+
+    <div class="grp">과자 · 간식</div>
+    <div class="prow"><img class="th" src="img/p06.jpg" alt="" loading="lazy"><div class="nm"><b>봉지과자 (대)</b><span>맛동산 · 썬칩 등</span></div><div class="sell">2,700</div><div class="settle">2,484</div></div>
+    <div class="prow"><img class="th" src="img/p07.jpg" alt="" loading="lazy"><div class="nm"><b>봉지과자 (중)</b><span>새우깡 · 짱구 등</span></div><div class="sell">1,500</div><div class="settle">1,380</div></div>
+    <div class="prow"><img class="th" src="img/p08.jpg" alt="" loading="lazy"><div class="nm"><b>봉지과자 (중)</b><span>바나나킥 · 꿀꽈배기 등</span></div><div class="sell">1,600</div><div class="settle">1,472</div></div>
+    <div class="prow"><img class="th" src="img/p09.jpg" alt="" loading="lazy"><div class="nm"><b>봉지과자 (중)</b><span>포카칩 · 꼬깔콘 등</span></div><div class="sell">1,700</div><div class="settle">1,564</div></div>
+    <div class="prow"><img class="th" src="img/p10.jpg" alt="" loading="lazy"><div class="nm"><b>초코 · 비스킷</b><span>홈런볼 · 칸쵸 등</span></div><div class="sell">1,500</div><div class="settle">1,380</div></div>
+    <div class="prow"><img class="th" src="img/p11.jpg" alt="" loading="lazy"><div class="nm"><b>초코 · 비스킷</b><span>빼빼로 등</span></div><div class="sell">1,700</div><div class="settle">1,564</div></div>
+    <div class="prow"><img class="th" src="img/p12.jpg" alt="" loading="lazy"><div class="nm"><b>육포</b><span>30g</span></div><div class="sell">3,500</div><div class="settle">3,220</div></div>
+
+    <div class="grp">음료</div>
+    <div class="prow"><img class="th" src="img/p13.jpg" alt="" loading="lazy"><div class="nm"><b>생수</b><span>500ml</span></div><div class="sell">800</div><div class="settle">736</div></div>
+    <div class="prow"><img class="th" src="img/p13.jpg" alt="" loading="lazy"><div class="nm"><b>생수</b><span>2L</span></div><div class="sell">1,200</div><div class="settle">1,104</div></div>
+    <div class="prow"><img class="th" src="img/p14.jpg" alt="" loading="lazy"><div class="nm"><b>탄산음료</b><span>콜라 · 사이다 1.5L</span></div><div class="sell">3,900</div><div class="settle">3,588</div></div>
+    <div class="prow"><img class="th" src="img/p15.jpg" alt="" loading="lazy"><div class="nm"><b>차 음료</b><span>옥수수수염차 · 헛개차</span></div><div class="sell">1,500</div><div class="settle">1,380</div></div>
+    <div class="prow"><img class="th" src="img/p16.jpg" alt="" loading="lazy"><div class="nm"><b>이온음료</b><span>포카리스웨트 등 500ml</span></div><div class="sell">1,800</div><div class="settle">1,656</div></div>
+    <div class="prow"><img class="th" src="img/p17.jpg" alt="" loading="lazy"><div class="nm"><b>주스</b><span>400ml</span></div><div class="sell">1,800</div><div class="settle">1,656</div></div>
+    <div class="prow"><img class="th" src="img/p18.jpg" alt="" loading="lazy"><div class="nm"><b>캔커피</b><span>175ml</span></div><div class="sell">1,000</div><div class="settle">920</div></div>
+    <div class="prow"><img class="th" src="img/p19.jpg" alt="" loading="lazy"><div class="nm"><b>컵커피</b><span>275ml</span></div><div class="sell">1,900</div><div class="settle">1,748</div></div>
+    <div class="prow"><img class="th" src="img/p20.jpg" alt="" loading="lazy"><div class="nm"><b>어린이 음료</b><span>뽀로로 등</span></div><div class="sell">1,300</div><div class="settle">1,196</div></div>
+
+    <div class="grp">통조림 · 조리재료</div>
+    <div class="prow"><img class="th" src="img/p21.jpg" alt="" loading="lazy"><div class="nm"><b>참치캔</b><span>135g</span></div><div class="sell">2,900</div><div class="settle">2,668</div></div>
+    <div class="prow"><img class="th" src="img/p22.jpg" alt="" loading="lazy"><div class="nm"><b>캔햄</b><span>200g</span></div><div class="sell">4,500</div><div class="settle">4,140</div></div>
+    <div class="prow"><img class="th" src="img/p23.jpg" alt="" loading="lazy"><div class="nm"><b>캔김치</b><span>160g</span></div><div class="sell">4,600</div><div class="settle">4,232</div></div>
+    <div class="prow"><img class="th" src="img/p24.jpg" alt="" loading="lazy"><div class="nm"><b>쌈장 · 초고추장</b><span>170g</span></div><div class="sell">1,500</div><div class="settle">1,380</div></div>
+    <div class="prow"><img class="th" src="img/p25.jpg" alt="" loading="lazy"><div class="nm"><b>진간장</b><span>200ml</span></div><div class="sell">2,500</div><div class="settle">2,300</div></div>
+    <div class="prow"><img class="th" src="img/p26.jpg" alt="" loading="lazy"><div class="nm"><b>고추장</b><span>200g</span></div><div class="sell">3,500</div><div class="settle">3,220</div></div>
+    <div class="prow"><img class="th" src="img/p27.jpg" alt="" loading="lazy"><div class="nm"><b>참기름</b><span>50ml</span></div><div class="sell">2,800</div><div class="settle">2,576</div></div>
+    <div class="prow"><img class="th" src="img/p28.jpg" alt="" loading="lazy"><div class="nm"><b>허브솔트</b><span>50g</span></div><div class="sell">3,100</div><div class="settle">2,852</div></div>
+    <div class="prow"><img class="th" src="img/p29.jpg" alt="" loading="lazy"><div class="nm"><b>후추</b><span>40g</span></div><div class="sell">5,400</div><div class="settle">4,968</div></div>
+
+    <div class="grp">캠핑용품</div>
+    <div class="prow"><img class="th" src="img/p30.jpg" alt="" loading="lazy"><div class="nm"><b>부탄가스</b><span>220g</span></div><div class="sell">1,300</div><div class="settle">1,196</div></div>
+    <div class="prow"><img class="th" src="img/p31.jpg" alt="" loading="lazy"><div class="nm"><b>이소부탄</b><span>230g</span></div><div class="sell">2,500</div><div class="settle">2,300</div></div>
+    <div class="prow"><img class="th" src="img/p31.jpg" alt="" loading="lazy"><div class="nm"><b>이소부탄</b><span>450g</span></div><div class="sell">4,500</div><div class="settle">4,140</div></div>
+    <div class="prow"><img class="th" src="img/p32.jpg" alt="" loading="lazy"><div class="nm"><b>숯</b><span>700g</span></div><div class="sell">3,500</div><div class="settle">3,220</div></div>
+
+    <div class="tnote">
+      라면 · 과자 · 음료처럼 <b>비슷한 품목은 묶어서 같은 가격</b>을 적용합니다. 용량이나 가격대 차이가 큰 것은 위와 같이 나누어 책정합니다.<br>
+      <b>여기 없는 상품도 괜찮습니다.</b> 매점에 있는 상품을 알려주시면 같은 기준으로 책정해 등록해 드립니다.
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="alt">
+    <h2>자주 묻는 질문</h2>
+
+    <div class="faq">
+      <button class="faq-q">실제 매입가가 정산금액보다 높은데요?</button>
+      <div class="faq-a"><div class="inner">
+        지금 들여오시는 금액이 위 정산금액보다 높으시다면,
+        <em>캠핏을 통해 매입하신 뒤 진행하셔도 됩니다.</em><br><br>
+        오더앤픽 판매가는 <em>캠핏 매입가를 기준으로 책정했습니다.</em>
+        그래서 캠핏을 통해 들여오시면, 위에 안내드린 가격 그대로 온라인에 파셔도
+        <em>캠핑장에 수익이 남도록</em> 설계되어 있습니다.
+      </div></div>
+    </div>
+
+    <div class="faq">
+      <button class="faq-q">제 매점 판매가보다 싼데, 손해 아닌가요?</button>
+      <div class="faq-a"><div class="inner">
+        온라인 판매는 캠퍼가 <em>입실 전에 미리 주문</em>하는 사전주문입니다.
+        현장에서 바로 사 가시는 매점 판매와는 구매 시점이 다릅니다.<br><br>
+        캠퍼 대부분은 오는 길에 마트에서 장을 봐 옵니다. 온라인 판매가가 겨루는 상대는
+        사장님 매점이 아니라 <em>가는 길의 마트</em>입니다.
+        마트에서 사 왔을 물건을 매점 재고로 돌리는 구조라, 매점 매출을 나눠 갖는 것이 아닙니다.<br><br>
+        <em>매점 현장 판매가는 지금 그대로 두시면 됩니다.</em>
+      </div></div>
+    </div>
+
+    <div class="faq">
+      <button class="faq-q">판매가는 왜 캠핏이 정하나요?</button>
+      <div class="faq-a"><div class="inner">
+        캠퍼가 앱에서 여러 캠핑장을 함께 보기 때문에, 같은 상품 가격이 캠핑장마다 다르면
+        바로 비교가 되어 혼란이 생깁니다. 그래서 온라인 판매가는 캠핏이 통일해 정합니다.<br><br>
+        다만 계약상 캠핏은 <em>시장 조사를 거쳐 합리적으로 가격을 정할 의무</em>가 있고,
+        <em>판매 손실을 사장님께 전가할 수 없습니다.</em>
+      </div></div>
+    </div>
+
+    <div class="faq">
+      <button class="faq-q">초기 비용이 정말 없나요?</button>
+      <div class="faq-a"><div class="inner">
+        네. 매점 연동 방식은 <em>사입 없이 지금 있는 재고로 시작</em>합니다.
+        상품을 새로 들이실 필요가 없고, 키오스크도 <em>기기값·설치비 전액 무상</em>입니다.
+      </div></div>
+    </div>
+
+    <div class="faq">
+      <button class="faq-q">매점에 있는데 위 목록에 없는 상품은요?</button>
+      <div class="faq-a"><div class="inner">
+        위 표는 <em>예시</em>입니다. 매점에 있는 상품을 알려주시면 같은 기준으로 가격을 책정해 등록해 드립니다.
+        비슷한 품목은 묶어서 관리하기 때문에 상품이 늘어나도 번거로우실 일이 없습니다.
+      </div></div>
+    </div>
+
+    <div class="faq">
+      <button class="faq-q">정산은 어떻게 받나요?</button>
+      <div class="faq-a"><div class="inner">
+        캠퍼가 결제한 <em>판매가에서 서비스 이용료를 제한 금액</em>이 정산됩니다.
+        위 표의 <em>정산금액</em>이 사장님께 지급되는 금액입니다.
+        정산 주기와 지급 방법은 계약 안내 시 자세히 설명드립니다.
+      </div></div>
+    </div>
+  </section>
+
+  <footer>
+    <img src="camfit-symbol.png" alt="캠핏">
+    <p>궁금하신 점은 담당자에게 편하게 문의해 주세요.</p>
+  </footer>
+
+</main>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = btn.parentElement;
+      var body = item.querySelector('.faq-a');
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq.open').forEach(function(o){
+        o.classList.remove('open');
+        o.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!wasOpen){
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
