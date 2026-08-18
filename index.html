@@ -120,9 +120,9 @@
   .legend .s b{color:var(--op-deep)}
 
   .phead{
-    display:flex; gap:10px; align-items:center;
+    display:flex; gap:10px; align-items:flex-end;
     padding:0 2px 8px; border-bottom:1.5px solid var(--op-line);
-    font-size:11.5px; font-weight:700; color:var(--sub);
+    font-size:11.5px; font-weight:700; color:var(--sub); line-height:1.35;
   }
   .phead .sp{flex:none; width:44px}
   .phead .nm{flex:1 1 auto; min-width:0}
@@ -277,7 +277,7 @@
 
   <!-- 가격표 -->
   <section>
-    <h2>판매가와 정산금액</h2>
+    <h2>예상 판매가와 예상 정산금액</h2>
 
     <div class="disc">
       <span class="i">!</span>
@@ -285,15 +285,15 @@
     </div>
 
     <div class="legend">
-      <div><b>판매가</b> — 캠퍼가 캠핏 앱에서 결제하는 금액입니다.</div>
-      <div class="s"><b>정산금액</b> — 사장님이 받으시는 금액입니다.</div>
+      <div><b>예상 판매가</b> — 캠퍼가 캠핏 앱에서 결제하는 금액입니다.</div>
+      <div class="s"><b>예상 정산금액</b> — 사장님이 받으시는 금액입니다.</div>
     </div>
 
     <div class="phead">
       <div class="sp"></div>
       <div class="nm">품목</div>
-      <div class="sell">판매가</div>
-      <div class="settle">정산금액</div>
+      <div class="sell">예상<br>판매가</div>
+      <div class="settle">예상<br>정산금액</div>
     </div>
 
     <div class="grp">라면 · 즉석식품</div>
@@ -353,7 +353,7 @@
     <div class="faq">
       <button class="faq-q">실제 매입가가 정산금액보다 높은데요?</button>
       <div class="faq-a"><div class="inner">
-        지금 들여오시는 금액이 위 정산금액보다 높으시다면,
+        지금 들여오시는 금액이 위 예상 정산금액보다 높으시다면,
         <em>캠핏을 통해 매입하신 뒤 진행하셔도 됩니다.</em><br><br>
         오더앤픽 판매가는 <em>캠핏 매입가를 기준으로 책정했습니다.</em>
         그래서 캠핏을 통해 들여오시면, 위에 안내드린 가격 그대로 온라인에 파셔도
@@ -377,9 +377,7 @@
       <button class="faq-q">판매가는 왜 캠핏이 정하나요?</button>
       <div class="faq-a"><div class="inner">
         캠퍼가 앱에서 여러 캠핑장을 함께 보기 때문에, 같은 상품 가격이 캠핑장마다 다르면
-        바로 비교가 되어 혼란이 생깁니다. 그래서 온라인 판매가는 캠핏이 통일해 정합니다.<br><br>
-        다만 계약상 캠핏은 <em>시장 조사를 거쳐 합리적으로 가격을 정할 의무</em>가 있고,
-        <em>판매 손실을 사장님께 전가할 수 없습니다.</em>
+        바로 비교가 되어 혼란이 생깁니다. 그래서 온라인 판매가는 캠핏이 통일해 정합니다.
       </div></div>
     </div>
 
@@ -403,7 +401,7 @@
       <button class="faq-q">정산은 어떻게 받나요?</button>
       <div class="faq-a"><div class="inner">
         캠퍼가 결제한 <em>판매가에서 서비스 이용료를 제한 금액</em>이 정산됩니다.
-        위 표의 <em>정산금액</em>이 사장님께 지급되는 금액입니다.
+        위 표의 <em>예상 정산금액</em>이 사장님께 지급되는 금액입니다.
         정산 주기와 지급 방법은 계약 안내 시 자세히 설명드립니다.
       </div></div>
     </div>
